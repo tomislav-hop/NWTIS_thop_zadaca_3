@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="osnovna.css"/>
+    </h:head>
+    <h:body>
+
+        <b> <h:outputLabel value="Sve adrese koje se nalaze u bazi:" /> </b>
+        <h:dataTable value="#{odabirAdresa.popisAdresa}" var="a" class="tablica" headerClass="zaglavlje"
+                     rowClasses="neparni,parni">
+            <h:column>
+                <f:facet name="header" >Id</f:facet>
+                    #{a.idadresa}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Adresa</f:facet>
+                    #{a.adresa}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Lat</f:facet>
+                    #{a.geoloc.latitude}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Lon</f:facet>
+                    #{a.geoloc.longitude}
+            </h:column>
+        </h:dataTable>
+
+        <br/><br/>
+        <b><h:outputLabel value="Odabir adrese: #{odabirAdresa.odabranaAdresa}" /> </b>
+        <h:form>
+            <h:selectManyListbox value="#{odabirAdresa.odabraneAdrese}">
+                <f:selectItems value="#{odabirAdresa.popisAdresa}" var="f" itemLabel="#{f.adresa}" itemValue="#{f.adresa}"/>
+            </h:selectManyListbox><br/>
+            <br/>
+            <h:commandButton value="Ispiši sve meteopodatke za jednu adresu" action="#{odabirAdresa.odaberiAdresu()}" class="gumb"/>
+            <br/><br/>
+            <h:commandButton value="Ispiši zadnje meteopodatke za više adresa" action="#{odabirAdresa.odaberiAdrese()}" class="gumb"/>
+            <br/><br/>
+            <h:commandButton value="Meteo podaci za više adresa putem REST web servisa" action="#{odabirAdresa.restServis()}" class="gumb"/>
+            <br/>
+        </h:form>
+        <br/><br/>
+        <b><h:outputLabel value="Meteo podaci:" /> </b>
+        <h:dataTable value="#{odabirAdresa.poljeMP}" var="a" class="tablica" headerClass="zaglavlje"
+                     rowClasses="neparni,parni">
+            <h:column>
+                <f:facet name="header" >Grad</f:facet>
+                    #{a.windDirectionName}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Vrijeme</f:facet>
+                    #{a.weatherValue}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Temperatura</f:facet>
+                    #{a.temperatureValue}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Vlaga</f:facet>
+                    #{a.humidityValue}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Pritisak</f:facet>
+                    #{a.pressureValue}
+            </h:column>
+            <h:column>
+                <f:facet name="header" >Vjetar</f:facet>
+                    #{a.windSpeedValue}
+            </h:column>
+        </h:dataTable>
+        
+        <br/><br/>
+        <div><pre>#{odabirAdresa.testiranje}</pre></div>
+    </h:body>
+</html>
+
